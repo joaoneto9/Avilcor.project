@@ -2,15 +2,15 @@ package program;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import Sistema.*;
+import fachada.*;
 
 public class Menu {
 	
-	private Sistema sistema;
+	private FachadaAvilcor sistema;
 	private Scanner sc;
 	
 	public Menu(Connection conn, Scanner sc) {
-		this.sistema = new Sistema(conn);
+		this.sistema = new FachadaAvilcor(conn);
 		this.sc = sc;
 	}
 	
