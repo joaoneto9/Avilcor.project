@@ -1,4 +1,4 @@
-package Sistema;
+package fachada;
 
 import java.sql.Connection;
 
@@ -7,14 +7,14 @@ import model.controllers.OrdemServicosController;
 import model.controllers.ServicoController;
 import model.controllers.UsuarioController;
 
-public class Sistema {
+public class FachadaAvilcor {
 	
 	private CostureiraController cs;
 	private UsuarioController us;
 	private ServicoController sc;
 	private OrdemServicosController os;
 	
-	public Sistema(Connection conn) {
+	public FachadaAvilcor(Connection conn) {
 		this.cs = new CostureiraController(conn);
 		this.us =  new UsuarioController(conn);
 		this.sc = new ServicoController(conn);
