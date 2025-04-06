@@ -29,18 +29,19 @@ public class Menu {
 			       (D) Adicionar Costureira
 			       (E) Buscar Costureira por ID
 			       (F) Listar Histórico de Buscas
+			       (G) Listar Todas as Costureiras
 
 			    📌 [3] Gestão de Ordens de Serviço
-			       (G) Cadastrar Nova Ordem de Serviço
-			       (H) Listar Ordens de um Usuário
-			       (I) Listar Serviços de uma Ordem
-			       (J) Deletar Ordens Finalizadas
-			       (K) Atualizar Status para 'Em Andamento'
-			       (L) Atualizar Status para 'Finalizado'
+			       (H) Cadastrar Nova Ordem de Serviço
+			       (I) Listar Ordens de um Usuário
+			       (J) Listar Serviços de uma Ordem
+			       (K) Deletar Ordens Finalizadas
+			       (L) Atualizar Status para 'Em Andamento'
+			       (M) Atualizar Status para 'Finalizado'
 
 			    📌 [4] Gestão de Serviços
-			       (M) Adicionar Serviço a uma Ordem
-			       (N) Listar Serviços de uma Ordem
+			       (N) Adicionar Serviço a uma Ordem
+			       (O) Listar Serviços de uma Ordem
 
 			    ❌ [X] Sair do Sistema
 
@@ -65,25 +66,27 @@ public class Menu {
            	case 'F':
                 return sistema.listarHistoricoDeBuscas();
            	case 'G':
-                return "ordem de servico cadastrada, com id#" + sistema.cadastrarOrdemDeServico(setInt("id user"), setInt("id costureira"));
+           		return sistema.listraCostureiras();
            	case 'H':
-                return "ordens de servico do usuario: " + sistema.listarOrdensDeUmUsuario(setInt("id"));
+                return "ordem de servico cadastrada, com id#" + sistema.cadastrarOrdemDeServico(setInt("id user"), setInt("id costureira"));
            	case 'I':
-                return "servicos de uma ordem de servicos: " + sistema.listarServicosDeUmaOrdem(setInt("id"));
+                return "ordens de servico do usuario: " + sistema.listarOrdensDeUmUsuario(setInt("id"));
            	case 'J':
+                return "servicos de uma ordem de servicos: " + sistema.listarServicosDeUmaOrdem(setInt("id"));
+           	case 'K':
                 sistema.deletarOrdensFinalizadas();
                 return "removendo as ordens de servicos finalizadas para serem entregues";
-           	case 'K':
+           	case 'L':
             	int id = setInt("id");
                 sistema.atualizarStatusParaEmAndamento(id);
                 return "colocando ordem de servico #" + id + "em andamento";
-           	case 'L':
+           	case 'M':
             	int id2 = setInt("id");
                 sistema.atualizarStatusParaEmAndamento(id2);
                 return "finalizando ordem de servico #" + id2;
-           	case 'M':
-           		return "adicinado servico a ordem de servico: " + sistema.adicionarServicoAOrdem(setInt("id"), setDouble("preco"), setString("descricao"));
            	case 'N':
+           		return "adicinado servico a ordem de servico: " + sistema.adicionarServicoAOrdem(setInt("id"), setDouble("preco"), setString("descricao"));
+           	case 'O':
            		return "servicos da ordem: " + sistema.listarServicosDeUmaOrdem(1);
            	case 'X':
                 return "FIM DO PROGRAMA";

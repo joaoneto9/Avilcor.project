@@ -44,6 +44,10 @@ public class FachadaAvilcor {
     public String listarHistoricoDeBuscas() {
        return cs.listarHistorico();
     }
+    
+    public String listraCostureiras() {
+    	return cs.listarCostureiras();
+    }
 
     public int cadastrarOrdemDeServico(int usuarioId, int costureiraId) {
         return os.cadastrarOrdemServicoDDB(costureiraId, usuarioId);
@@ -72,6 +76,7 @@ public class FachadaAvilcor {
     public int adicionarServicoAOrdem(int ordemId, double preco, String descricao) {
         return sc.salvarServicoDB(ordemId, preco, descricao);
     }
+    
 
 
 }

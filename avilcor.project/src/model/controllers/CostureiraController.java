@@ -37,6 +37,13 @@ public class CostureiraController {
 		}
 		return msg;
 	}
+
+	public String listarCostureiras() {
+		return "TODAS AS COSTUREIRAS:" + CostureiraDAO.todasCostureiras(conn)
+				.stream()
+				.map(x -> x.toString())
+				.reduce("", (x1, x2) -> x1 + "\n\n" + x2);
+	}
 	
 	
 

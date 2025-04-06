@@ -24,7 +24,8 @@ public class Costureira {
 	
 	@Override
 	public String toString() {
-		return "Costureira #" + id + ": \nnome: " + nome + "\ncpf: " + cpf;
+		return "Costureira #" + id + ": \nnome: " + nome + "\ncpf: " + cpf + 
+				"\nquantidade de servicos: " + quantServico + "/" + QUANTIDADE_MAXIMA;
 	}
 	
 	public int getQuantServico() {
