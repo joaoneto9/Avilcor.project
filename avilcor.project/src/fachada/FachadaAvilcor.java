@@ -56,6 +56,10 @@ public class FachadaAvilcor {
     public String listarOrdensDeUmUsuario(int usuarioId) {
         return os.getOrdensServicoUserId(usuarioId);
     }
+    
+    public String listarOrdensDeServicos() {
+        return os.listarOrdensServico();
+    }
 
     public String listarServicosDeUmaOrdem(int ordemId) {
         return os.getServicos(sc, ordemId);

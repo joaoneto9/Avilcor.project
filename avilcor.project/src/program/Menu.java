@@ -34,14 +34,15 @@ public class Menu {
 			    📌 [3] Gestão de Ordens de Serviço
 			       (H) Cadastrar Nova Ordem de Serviço
 			       (I) Listar Ordens de um Usuário
-			       (J) Listar Serviços de uma Ordem
-			       (K) Deletar Ordens Finalizadas
-			       (L) Atualizar Status para 'Em Andamento'
-			       (M) Atualizar Status para 'Finalizado'
+			       (J) Listar Ordens de Servico
+			       (K) Listar Serviços de uma Ordem
+			       (L) Deletar Ordens Finalizadas
+			       (M) Atualizar Status para 'Em Andamento'
+			       (N) Atualizar Status para 'Finalizado'
 
 			    📌 [4] Gestão de Serviços
-			       (N) Adicionar Serviço a uma Ordem
-			       (O) Listar Serviços de uma Ordem
+			       (O) Adicionar Serviço a uma Ordem
+			       (P) Listar Serviços de uma Ordem
 
 			    ❌ [X] Sair do Sistema
 
@@ -72,21 +73,23 @@ public class Menu {
            	case 'I':
                 return "ordens de servico do usuario: " + sistema.listarOrdensDeUmUsuario(setInt("id"));
            	case 'J':
-                return "servicos de uma ordem de servicos: " + sistema.listarServicosDeUmaOrdem(setInt("id"));
+           		return sistema.listarOrdensDeServicos();
            	case 'K':
+                return "servicos de uma ordem de servicos: " + sistema.listarServicosDeUmaOrdem(setInt("id"));
+           	case 'L':
                 sistema.deletarOrdensFinalizadas();
                 return "removendo as ordens de servicos finalizadas para serem entregues";
-           	case 'L':
+           	case 'M':
             	int id = setInt("id");
                 sistema.atualizarStatusParaEmAndamento(id);
                 return "colocando ordem de servico #" + id + "em andamento";
-           	case 'M':
+           	case 'N':
             	int id2 = setInt("id");
                 sistema.atualizarStatusParaEmAndamento(id2);
                 return "finalizando ordem de servico #" + id2;
-           	case 'N':
-           		return "adicinado servico a ordem de servico: " + sistema.adicionarServicoAOrdem(setInt("id"), setDouble("preco"), setString("descricao"));
            	case 'O':
+           		return "adicinado servico a ordem de servico: " + sistema.adicionarServicoAOrdem(setInt("id"), setDouble("preco"), setString("descricao"));
+           	case 'P':
            		return "servicos da ordem: " + sistema.listarServicosDeUmaOrdem(1);
            	case 'X':
                 return "FIM DO PROGRAMA";

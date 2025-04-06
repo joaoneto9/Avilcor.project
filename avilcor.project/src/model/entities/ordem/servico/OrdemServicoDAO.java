@@ -19,6 +19,7 @@ public class OrdemServicoDAO {
 	private final static String sql4 = "DELETE FROM ordem_servico WHERE status = Finalizada";
 	private final static String sql5 = "UPDATE ordem_servico SET status = ? WHERE id = ?";
 	private final static String sql6 = "SELECT costureira_id FROM ordem_servico WHERE id = ?";
+	private final static String sql7 = "SELECT * FROM ordem_servico";
 	
 	public static int cadastrarOrdemServico(Connection conn, OrdemServico os) {
 		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,9 +48,11 @@ public class OrdemServicoDAO {
 			ResultSet rs = ps.executeQuery(); //executa a busca
 			while (rs.next()) {
 				lista.add(new OrdemServico(rs.getInt(1), 
-						rs.getInt(2),  // adiciona mais um servico para cada Os que.
+						rs.getInt(2),  
 						rs.getInt(3),
-						rs.getDouble(6))); // valor total
+						rs.getDate(4).toLocalDate(),
+						StatusOS.valueOf(rs.getString(5)),
+						rs.getDouble(6))); 
 			}
 			return lista; 
 		} catch (SQLException e) {
@@ -95,6 +98,25 @@ public class OrdemServicoDAO {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
+	}
+	
+	public static List<OrdemServico> listarOrdemServicos(Connection conn) {
+		try (PreparedStatement ps = conn.prepareStatement(sql7)) {
+			ResultSet rs = ps.executeQuery();
+			List<OrdemServico> pedidos = new ArrayList<>();
+			while (rs.next()) {
+				pedidos.add(new OrdemServico(rs.getInt(1), 
+						rs.getInt(2),  
+						rs.getInt(3),
+						rs.getDate(4).toLocalDate(),
+						StatusOS.valueOf(rs.getString(5)),
+						rs.getDouble(6)));
+			}
+			return pedidos;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		
 	}
 	
 	private static void setStatus(Connection conn, String status, int idOs) {

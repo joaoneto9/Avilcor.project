@@ -1,6 +1,7 @@
 package model.controllers;
 
 import java.sql.Connection;
+import java.util.Collections;
 import java.util.List;
 
 import model.entities.ordem.servico.OrdemServico;
@@ -44,5 +45,13 @@ public class OrdemServicosController {
 	
 	public void setStatusFinalizado(int OsId) {
 		OrdemServicoDAO.setStatusFinalizado(conn, OsId);
+	}
+	
+	public String listarOrdensServico() {
+		List<OrdemServico> ordens = OrdemServicoDAO.listarOrdemServicos(conn);
+		Collections.sort(ordens);
+		return "TODOS AS ORDEM DE SERVICOS (do mais recente ao mais antigo): " + ordens.stream()
+													.map(x -> x.toString())
+													.reduce("", (x1, x2) -> x1 + "\n\n" + x2);
 	}
 }

@@ -45,6 +45,5 @@ public class CostureiraController {
 				.reduce("", (x1, x2) -> x1 + "\n\n" + x2);
 	}
 	
-	
 
 }

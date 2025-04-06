@@ -12,9 +12,9 @@ public class Program {
 		Connection conn = null;
 		try (Scanner sc = new Scanner(System.in)) {
 			conn = DB.getConnection();
+			Menu menu = new Menu(conn, sc);
 			while (true) {
 				conn.setAutoCommit(false);
-				Menu menu = new Menu(conn, sc);
 				System.out.println(menu.menuInterface());
 				String input = sc.nextLine();
 				String output = menu.functionInput(input);

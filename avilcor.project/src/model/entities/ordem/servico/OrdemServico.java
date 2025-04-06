@@ -1,7 +1,7 @@
 package model.entities.ordem.servico;
 import java.time.LocalDate;
 
-public class OrdemServico {
+public class OrdemServico implements Comparable<OrdemServico>{
 	
 	private int id;
 	private int costureiraId;
@@ -18,16 +18,18 @@ public class OrdemServico {
 		this.status = StatusOS.Pendente;
 	}
 	
-	public OrdemServico(int id, int costureiraId, int usuarioId, double valor) {
+	public OrdemServico(int id, int costureiraId, int usuarioId, LocalDate data, StatusOS status, double valor) {
 		this(costureiraId, usuarioId);
 		this.id = id;
 		this.valorTotal = valor;
+		this.data = data;
+		this.status = status;
 	}
 	
 	@Override
 	public String toString() {
 		return "OrdemServico#" + id + ": usuarioId: " + usuarioId + ", valorTotal: " + valorTotal + ", data: " + data
-				+ ", status: ";
+				+ ", status: " + status;
 	}
 
 	public void addValorTotal(double valor) {
@@ -63,6 +65,11 @@ public class OrdemServico {
 
 	public double getValorTotal() {
 		return valorTotal;
+	}
+
+	@Override
+	public int compareTo(OrdemServico o) {
+		return o.getData().compareTo(data);
 	}
 	
 
