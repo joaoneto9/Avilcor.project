@@ -13,16 +13,16 @@ import db.DbException;
 
 public class OrdemServicoDAO {
 	
-	private final static String sql = "INSERT INTO ordem_servico (costureira_id, usuario_Id, valor_total) VALUES (?, ?, ?)";
-	private final static String sql2 = "SELECT * FROM ordem_servico WHERE usuario_id = ?";
-	private final static String sql3 = "UPDATE ordem_servico SET valor_total = valor_total + ? WHERE id = ?";
-	private final static String sql4 = "DELETE FROM ordem_servico WHERE status = Finalizada";
-	private final static String sql5 = "UPDATE ordem_servico SET status = ? WHERE id = ?";
-	private final static String sql6 = "SELECT costureira_id FROM ordem_servico WHERE id = ?";
-	private final static String sql7 = "SELECT * FROM ordem_servico";
+	private static final String INSERIR_ORDEM_SERVICO = "INSERT INTO ordem_servico (costureira_id, usuario_Id, valor_total) VALUES (?, ?, ?)";
+	private static final String BUSCAR_POR_USUARIO_ID = "SELECT * FROM ordem_servico WHERE usuario_id = ?";
+	private static final String SOMAR_VALOR_TOTAL = "UPDATE ordem_servico SET valor_total = valor_total + ? WHERE id = ?";
+	private static final String DELETAR_FINALIZADAS = "DELETE FROM ordem_servico WHERE status = Finalizada";
+	private static final String ATUALIZAR_STATUS = "UPDATE ordem_servico SET status = ? WHERE id = ?";
+	private static final String BUSCAR_COSTUREIRA_ID_POR_OS_ID = "SELECT costureira_id FROM ordem_servico WHERE id = ?";
+	private static final String LISTAR_TODAS_OS = "SELECT * FROM ordem_servico";
 	
 	public static int cadastrarOrdemServico(Connection conn, OrdemServico os) {
-		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement ps = conn.prepareStatement(INSERIR_ORDEM_SERVICO, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setInt(1, os.getCostureiraId());
 			ps.setInt(2, os.getUsuarioId());
 			ps.setDouble(3, os.getValorTotal());
@@ -39,13 +39,12 @@ public class OrdemServicoDAO {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
-	//pego as ordem de servico de cada cliente
+
 	public static List<OrdemServico> getOrdemServicoUserID(Connection conn, int userId) {
-		try (PreparedStatement ps = conn.prepareStatement(sql2)) {
+		try (PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_USUARIO_ID)) {
 			List<OrdemServico> lista = new ArrayList<>();
-			ps.setInt(1, userId); // coloca no comando Sql o ide do user
-			ResultSet rs = ps.executeQuery(); //executa a busca
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				lista.add(new OrdemServico(rs.getInt(1), 
 						rs.getInt(2),  
@@ -59,36 +58,35 @@ public class OrdemServicoDAO {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
+
 	public static void somarValor(Connection conn, double valor, int Osid) {
-		try(PreparedStatement ps = conn.prepareStatement(sql3)) {
+		try(PreparedStatement ps = conn.prepareStatement(SOMAR_VALOR_TOTAL)) {
 			ps.setDouble(1, valor);
 			ps.setInt(2, Osid);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
-		
 	}
-	
+
 	public static void deletarOsFinalizada(Connection conn) {
-		try(PreparedStatement ps = conn.prepareStatement(sql4)) {
+		try(PreparedStatement ps = conn.prepareStatement(DELETAR_FINALIZADAS)) {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
+
 	public static void setStatusAndamento(Connection conn, int idOs) {
-		setStatus(conn, StatusOS.Em_Andamento.name() ,idOs);
+		setStatus(conn, StatusOS.Em_Andamento.name(), idOs);
 	}
-	
+
 	public static void setStatusFinalizado(Connection conn, int idOs) {
-		setStatus(conn, StatusOS.Em_Andamento.name() ,idOs);
+		setStatus(conn, StatusOS.Finalizada.name(), idOs);
 	}
-	
+
 	public static int getIdCostureira(Connection conn, int idOs) {
-		try (PreparedStatement ps = conn.prepareStatement(sql6)) {
+		try (PreparedStatement ps = conn.prepareStatement(BUSCAR_COSTUREIRA_ID_POR_OS_ID)) {
 			ps.setInt(1, idOs);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -99,9 +97,9 @@ public class OrdemServicoDAO {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
+
 	public static List<OrdemServico> listarOrdemServicos(Connection conn) {
-		try (PreparedStatement ps = conn.prepareStatement(sql7)) {
+		try (PreparedStatement ps = conn.prepareStatement(LISTAR_TODAS_OS)) {
 			ResultSet rs = ps.executeQuery();
 			List<OrdemServico> pedidos = new ArrayList<>();
 			while (rs.next()) {
@@ -116,11 +114,10 @@ public class OrdemServicoDAO {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
-		
 	}
-	
+
 	private static void setStatus(Connection conn, String status, int idOs) {
-		try(PreparedStatement ps = conn.prepareStatement(sql5)) {
+		try(PreparedStatement ps = conn.prepareStatement(ATUALIZAR_STATUS)) {
 			ps.setString(1, status);
 			ps.setInt(2, idOs);
 			ps.executeUpdate();
@@ -128,5 +125,4 @@ public class OrdemServicoDAO {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
 }

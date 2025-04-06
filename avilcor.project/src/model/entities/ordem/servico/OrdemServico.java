@@ -28,8 +28,8 @@ public class OrdemServico implements Comparable<OrdemServico>{
 	
 	@Override
 	public String toString() {
-		return "OrdemServico#" + id + ": usuarioId: " + usuarioId + ", valorTotal: " + valorTotal + ", data: " + data
-				+ ", status: " + status;
+		return "OrdemServico#" + id + "\ncostureiraId: " + costureiraId + "\nusuarioId: " + usuarioId + "\nvalorTotal: " + valorTotal + "\ndata: " + data
+				+ "\nstatus: " + status;
 	}
 
 	public void addValorTotal(double valor) {

@@ -1,6 +1,6 @@
 package model.entities.usuario;
 
-public class Usuario {
+public class Usuario implements Comparable<Usuario>{
 
 	private int id;
 	private String email;
@@ -32,6 +32,11 @@ public class Usuario {
 
 	public String getNome() {
 		return nome;
+	}
+
+	@Override
+	public int compareTo(Usuario o) {
+		return nome.compareTo(o.getNome());
 	}
 	
 }

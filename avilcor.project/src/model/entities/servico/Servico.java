@@ -20,8 +20,8 @@ public class Servico {
 	
 	@Override
 	public String toString() {
-		return "Servico#" + id + ": preco: " + preco + "\ndescricao: " 
-				+ descricao + "idOrdemServico: " + idOrdemServico;
+		return "Servico#" + id + ":\npreco: " + preco + "\ndescricao: " 
+				+ descricao + "\nidOrdemServico: " + idOrdemServico;
 	}
 
 	public String getDescricao() {

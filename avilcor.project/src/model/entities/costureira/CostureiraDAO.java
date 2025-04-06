@@ -13,16 +13,17 @@ import db.DbException;
 
 public class CostureiraDAO {
 	
-	private static final String sql = "INSERT INTO costureira (nome, cpf, qtd_max_servicos) VALUES (?, ?, ?)";
-	private static final String sql2 = "SELECT * FROM costureira WHERE id = ?";
-	private static final String sql3 = "UPDATE costureria SET qtd_servico = qtd_servico + 1 WHERE id = ?";
-	private static final String sql4 = "SELECT * FROM costureira"; // pega todas as costureiras.
+	private static final String INSERIR_COSTUREIRA = "INSERT INTO costureira (nome, cpf, qtd_max_servicos, qtd_servico) VALUES (?, ?, ?, ?)";
+	private static final String SELECIONAR_ID = "SELECT * FROM costureira WHERE id = ?";
+	private static final String ADD_SERVICO = "UPDATE costureira SET qtd_servico = qtd_servico + 1 WHERE id = ?";
+	private static final String SELECIONAR_COSTUREIRAS = "SELECT * FROM costureira"; // pega todas as costureiras.
 	
 	public static int salvarCostureira(Connection conn, Costureira costureira) {
-		try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		try(PreparedStatement ps = conn.prepareStatement(INSERIR_COSTUREIRA, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, costureira.getNome());
 			ps.setString(2, costureira.getCpf());
 			ps.setInt(3, costureira.getQuantidadeMaxima());
+			ps.setInt(4, costureira.getQuantServico());
 			int linhas = ps.executeUpdate();	
 			if (linhas > 0) { 
 	            try (ResultSet rs = ps.getGeneratedKeys()) { 
@@ -38,11 +39,11 @@ public class CostureiraDAO {
 	}
 	
 	public static boolean addServico(Connection conn, int id) {
-		try(PreparedStatement ps = conn.prepareStatement(sql3)) {
-			ps.setInt(1, id);
+		try (PreparedStatement ps = conn.prepareStatement(ADD_SERVICO)) {
 			Costureira costureira = buscarId(conn, id);
-			if (costureira.getQuantServico() == costureira.getQuantidadeMaxima()) 
+			if (costureira == null || costureira.getQuantServico() == costureira.getQuantidadeMaxima()) 
 				return false;
+			ps.setInt(1, id);
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -51,7 +52,7 @@ public class CostureiraDAO {
 	}
 	
 	public static Costureira buscarId(Connection conn, int id) {
-		try(PreparedStatement ps = conn.prepareStatement(sql2)) {
+		try(PreparedStatement ps = conn.prepareStatement(SELECIONAR_ID)) {
 			ps.setInt(1, id);
 	        ResultSet rs = ps.executeQuery(); // executa a busca e retorna a quantidade de dados
 	        if (rs.next()) { // se tem um dado a frente
@@ -68,7 +69,7 @@ public class CostureiraDAO {
 	}
 	
 	public static List<Costureira> todasCostureiras(Connection conn) {
-		try (PreparedStatement ps = conn.prepareStatement(sql4)) {
+		try (PreparedStatement ps = conn.prepareStatement(SELECIONAR_COSTUREIRAS)) {
 			ResultSet rs = ps.executeQuery();
 			List<Costureira> costureiras = new ArrayList<>();
 			while (rs.next()) {

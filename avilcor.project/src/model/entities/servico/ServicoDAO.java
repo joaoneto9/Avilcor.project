@@ -15,25 +15,17 @@ import model.entities.ordem.servico.OrdemServicoDAO;
 
 public class ServicoDAO {
 	
-	private final static String sql = "INSERT INTO servico (ordem_servico_id, descricao, preco) VALUES (?, ?, ?)";
-	private final static String sql2 = "SELECT * FROM servico WHERE ordem_servico_id = ?";
+	private final static String INSERIR_SERVICO = "INSERT INTO servico (ordem_servico_id, descricao, preco) VALUES (?, ?, ?)";
+	private final static String SELECIONAR_SERVICO_OS_ID = "SELECT * FROM servico WHERE ordem_servico_id = ?";
 	
 	public static int salvarServico(Connection conn, Servico servico) {
-		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement ps = conn.prepareStatement(INSERIR_SERVICO, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setInt(1, servico.getIdOrdemServico());
 			ps.setString(2, servico.getDescricao());
 			ps.setDouble(3, servico.getPreco());
 			OrdemServicoDAO.somarValor(conn, servico.getPreco(), servico.getIdOrdemServico());
 			int idCostureira = OrdemServicoDAO.getIdCostureira(conn, servico.getIdOrdemServico());
-			if (idCostureira != -1 || CostureiraDAO.addServico(conn, idCostureira)) {
-				int linhas = ps.executeUpdate();
-				if (linhas > 0) { 
-		            try (ResultSet rs = ps.getGeneratedKeys()) { 
-		                if (rs.next()) 
-		                    return rs.getInt(1); // retorna o id gerado
-		            } 
-		         }
-		     }
+			CostureiraDAO.addServico(conn, idCostureira);
 			return idCostureira;
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -41,7 +33,7 @@ public class ServicoDAO {
 	} 
 	
 	public static List<Servico> pegarServicosOsId(Connection conn, int OrdemId) {
-		try (PreparedStatement ps = conn.prepareStatement(sql2)) {
+		try (PreparedStatement ps = conn.prepareStatement(SELECIONAR_SERVICO_OS_ID)) {
 			List<Servico> servicos = new ArrayList<>();
 			ps.setInt(1, OrdemId);
 			ResultSet rs = ps.executeQuery();

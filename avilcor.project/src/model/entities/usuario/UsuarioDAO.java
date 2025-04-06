@@ -5,20 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.DB;
 import db.DbException;
 
 public class UsuarioDAO {
-	
 
-	private static String sql = "INSERT INTO usuario (nome, email) VALUES (?, ?)";
-	private static String sql2 = "SELECT * FROM usuario WHERE id = ?";
-	private static String sql3 = "SELECT * FROM usuario WHERE email = ?";
+	private static final String INSERIR_USUARIO = "INSERT INTO usuario (nome, email) VALUES (?, ?)";
+	private static final String BUSCAR_POR_ID = "SELECT * FROM usuario WHERE id = ?";
+	private static final String BUSCAR_POR_EMAIL = "SELECT * FROM usuario WHERE email = ?";
+	private static final String SELECIONAR_USUARIOS = "SELECT * FROM usuario";
 	
-
 	public static int cadastrarUsuario(Connection conn, String nome, String email) {
-		try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		try(PreparedStatement ps = conn.prepareStatement(INSERIR_USUARIO, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, nome);
 			ps.setString(2, email);
 			int linhas = ps.executeUpdate();
@@ -36,7 +37,7 @@ public class UsuarioDAO {
 	}
 	
 	public static Usuario getUsuarioEmail(Connection conn, String email) {
-		try(PreparedStatement ps = conn.prepareStatement(sql3)) {
+		try(PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_EMAIL)) {
 			ps.setString(1, email); // determino a busca po email
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -52,7 +53,7 @@ public class UsuarioDAO {
 	
 	
 	public static Usuario getUsuarioId(Connection conn, int id) {
-		try(PreparedStatement ps = conn.prepareStatement(sql2)) {
+		try(PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_ID)) {
 			ps.setInt(1, id); // determino a busca po email
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -65,5 +66,30 @@ public class UsuarioDAO {
 			throw new DbException(e.getMessage());
 		}
 	}
+	
+	public static List<Usuario> listarUsuarios(Connection conn) {
+		try (PreparedStatement ps = conn.prepareStatement(SELECIONAR_USUARIOS)) {
+			ResultSet rs = ps.executeQuery();
+			List<Usuario> usuarios = new ArrayList<>();
+			while (rs.next()) {
+				usuarios.add(new Usuario(rs.getInt(1), 
+						rs.getString(2), 
+						rs.getString(3)));
+			}
+			return usuarios;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

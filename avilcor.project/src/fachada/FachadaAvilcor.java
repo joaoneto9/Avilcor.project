@@ -33,6 +33,10 @@ public class FachadaAvilcor {
     	return us.getUsuarioId(id).toString();
     }
 
+    public String listarUsuarios() {
+    	return us.listarUsuarios();
+    }
+    
     public int adicionarCostureira(String nome, String cpf, int quantMaximaServico) {
         return cs.adicionarCostureiraDBB(nome, cpf, quantMaximaServico);
     }
