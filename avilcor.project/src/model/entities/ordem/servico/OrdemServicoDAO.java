@@ -17,7 +17,8 @@ public class OrdemServicoDAO {
 	private final static String sql2 = "SELECT * FROM ordem_servico WHERE usuario_id = ?";
 	private final static String sql3 = "UPDATE ordem_servico SET valor_total = valor_total + ? WHERE id = ?";
 	private final static String sql4 = "DELETE FROM ordem_servico WHERE status = Finalizada";
-	private final static String sql5 = "UDATE ordem_servico SET status = ? WHERE id = ?";
+	private final static String sql5 = "UPDATE ordem_servico SET status = ? WHERE id = ?";
+	private final static String sql6 = "SELECT costureira_id FROM ordem_servico WHERE id = ?";
 	
 	public static int cadastrarOrdemServico(Connection conn, OrdemServico os) {
 		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -81,6 +82,19 @@ public class OrdemServicoDAO {
 	
 	public static void setStatusFinalizado(Connection conn, int idOs) {
 		setStatus(conn, StatusOS.Em_Andamento.name() ,idOs);
+	}
+	
+	public static int getIdCostureira(Connection conn, int idOs) {
+		try (PreparedStatement ps = conn.prepareStatement(sql6)) {
+			ps.setInt(1, idOs);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("costureira_id");
+			}
+			return -1;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
 	}
 	
 	private static void setStatus(Connection conn, String status, int idOs) {
