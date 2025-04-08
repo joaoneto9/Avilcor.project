@@ -15,7 +15,7 @@ public class ServicoController {
 	}
 	
 	public int salvarServicoDB(int idOs, double preco, String desc) {
-		return ServicoDAO.salvarServico(conn, new Servico(idOs, preco, desc));
+		return ServicoDAO.salvarServico(conn, new Servico(idOs, desc, preco));
 	}
 	
 	public List<Servico> listarServicosOrdemid(int idOs) {

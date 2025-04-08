@@ -9,80 +9,80 @@ import model.controllers.UsuarioController;
 
 public class FachadaAvilcor {
 	
-	private CostureiraController cs;
-	private UsuarioController us;
-	private ServicoController sc;
-	private OrdemServicosController os;
+	private CostureiraController costureiraController;
+	private UsuarioController usuarioController;
+	private ServicoController servicoController;
+	private OrdemServicosController ordemServicosController;
 	
 	public FachadaAvilcor(Connection conn) {
-		this.cs = new CostureiraController(conn);
-		this.us =  new UsuarioController(conn);
-		this.sc = new ServicoController(conn);
-		this.os = new OrdemServicosController(conn);
+		this.costureiraController = new CostureiraController(conn);
+		this.usuarioController =  new UsuarioController(conn);
+		this.servicoController = new ServicoController(conn);
+		this.ordemServicosController = new OrdemServicosController(conn);
 	}
 	
     public int cadastrarUsuario(String nome, String email) {
-        return us.cadastrarUsuario(nome, email);
+        return usuarioController.cadastrarUsuario(nome, email);
     }
 
     public String toStringUsuarioPorEmail(String email) {
-        return us.getUsuarioEmail(email).toString();
+        return usuarioController.getUsuarioEmail(email).toString();
     }
 
     public String toStringUsuarioPorId(int id) {
-    	return us.getUsuarioId(id).toString();
+    	return usuarioController.getUsuarioId(id).toString();
     }
 
     public String listarUsuarios() {
-    	return us.listarUsuarios();
+    	return usuarioController.listarUsuarios();
     }
     
     public int adicionarCostureira(String nome, String cpf, int quantMaximaServico) {
-        return cs.adicionarCostureiraDBB(nome, cpf, quantMaximaServico);
+        return costureiraController.adicionarCostureiraDBB(nome, cpf, quantMaximaServico);
     }
 
     public String toStringCostureiraPorId(int id) {
-    	return cs.pegarCostureiraId(id).toString();
+    	return costureiraController.pegarCostureiraId(id).toString();
     }
 
     public String listarHistoricoDeBuscas() {
-       return cs.listarHistorico();
+       return costureiraController.listarHistorico();
     }
     
     public String listraCostureiras() {
-    	return cs.listarCostureiras();
+    	return costureiraController.listarCostureiras();
     }
 
     public int cadastrarOrdemDeServico(int usuarioId, int costureiraId) {
-        return os.cadastrarOrdemServicoDDB(costureiraId, usuarioId);
+        return ordemServicosController.cadastrarOrdemServicoDDB(costureiraId, usuarioId);
     }
 
     public String listarOrdensDeUmUsuario(int usuarioId) {
-        return os.getOrdensServicoUserId(usuarioId);
+        return ordemServicosController.getOrdensServicoUserId(usuarioId);
     }
     
     public String listarOrdensDeServicos() {
-        return os.listarOrdensServico();
+        return ordemServicosController.listarOrdensServico();
     }
 
     public String listarServicosDeUmaOrdem(int ordemId) {
-        return os.getServicos(sc, ordemId);
+        return ordemServicosController.getServicos(servicoController, ordemId);
     }
 
     public void deletarOrdensFinalizadas() {
-    	os.deletOrdemServicoFinalizada();
+    	ordemServicosController.deletOrdemServicoFinalizada();
     }
 
     public void atualizarStatusParaEmAndamento(int ordemId) {
-        os.setStatusAndamento(ordemId);
+        ordemServicosController.setStatusAndamento(ordemId);
     }
 
     public void atualizarStatusParaFinalizado(int ordemId) {
-        os.setStatusFinalizado(ordemId);
+        ordemServicosController.setStatusFinalizado(ordemId);
     }
 
     public int adicionarServicoAOrdem(int ordemId, double preco, String descricao) {
-        return sc.salvarServicoDB(ordemId, preco, descricao);
+        return servicoController.salvarServicoDB(ordemId, preco, descricao);
     }
     
 

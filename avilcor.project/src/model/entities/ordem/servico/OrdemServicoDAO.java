@@ -46,12 +46,12 @@ public class OrdemServicoDAO {
 			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				lista.add(new OrdemServico(rs.getInt(1), 
-						rs.getInt(2),  
-						rs.getInt(3),
-						rs.getDate(4).toLocalDate(),
-						StatusOS.valueOf(rs.getString(5)),
-						rs.getDouble(6))); 
+				lista.add(new OrdemServico(rs.getInt("id"), 
+						rs.getInt("costureira_id"),  
+						rs.getInt("usuario_id"),
+						rs.getDate("data_criacao").toLocalDate(),
+						StatusOS.valueOf(rs.getString("status")),
+						rs.getDouble("valor_total"))); 
 			}
 			return lista; 
 		} catch (SQLException e) {
@@ -89,9 +89,8 @@ public class OrdemServicoDAO {
 		try (PreparedStatement ps = conn.prepareStatement(BUSCAR_COSTUREIRA_ID_POR_OS_ID)) {
 			ps.setInt(1, idOs);
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
+			if (rs.next()) 
 				return rs.getInt("costureira_id");
-			}
 			return -1;
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -103,12 +102,12 @@ public class OrdemServicoDAO {
 			ResultSet rs = ps.executeQuery();
 			List<OrdemServico> pedidos = new ArrayList<>();
 			while (rs.next()) {
-				pedidos.add(new OrdemServico(rs.getInt(1), 
-						rs.getInt(2),  
-						rs.getInt(3),
-						rs.getDate(4).toLocalDate(),
-						StatusOS.valueOf(rs.getString(5)),
-						rs.getDouble(6)));
+				pedidos.add(new OrdemServico(rs.getInt("id"), 
+						rs.getInt("costureira_id"),  
+						rs.getInt("usuario_id"),
+						rs.getDate("data_criacao").toLocalDate(),
+						StatusOS.valueOf(rs.getString("status")),
+						rs.getDouble("valor_total")));
 			}
 			return pedidos;
 		} catch (SQLException e) {

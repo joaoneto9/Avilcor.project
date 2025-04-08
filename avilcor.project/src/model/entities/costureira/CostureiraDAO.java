@@ -56,11 +56,11 @@ public class CostureiraDAO {
 			ps.setInt(1, id);
 	        ResultSet rs = ps.executeQuery(); // executa a busca e retorna a quantidade de dados
 	        if (rs.next()) { // se tem um dado a frente
-	        	 return new Costureira(rs.getInt(1), 
-	        			 rs.getString(2), 
-	        			 rs.getString(3), // determinei pelas colunas. 
-	        			 rs.getInt(4),
-	        			 rs.getInt(5));
+	        	 return new Costureira(rs.getInt("id"), 
+	        			 rs.getString("nome"), 
+	        			 rs.getString("cpf"),
+	        			 rs.getInt("qtd_max_servicos"),
+	        			 rs.getInt("qtd_servico"));
 	        }
 	        return null;
 		} catch (SQLException e) {
@@ -73,11 +73,11 @@ public class CostureiraDAO {
 			ResultSet rs = ps.executeQuery();
 			List<Costureira> costureiras = new ArrayList<>();
 			while (rs.next()) {
-				costureiras.add(new Costureira(rs.getInt(1), 
-	        			 rs.getString(2), 
-	        			 rs.getString(3), // determinei pelas colunas. 
-	        		 	 rs.getInt(4),
-	        			 rs.getInt(5)));
+				costureiras.add(new Costureira(rs.getInt("id"), 
+	        			 rs.getString("nome"), 
+	        			 rs.getString("cpf"),  
+	        			 rs.getInt("qtd_max_servicos"),
+	        			 rs.getInt("qtd_servico")));
 			}
 			return costureiras;
 		} catch (Exception e) {

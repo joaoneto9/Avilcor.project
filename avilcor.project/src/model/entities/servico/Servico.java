@@ -7,14 +7,14 @@ public class Servico {
 	private Double preco;
 	private int idOrdemServico;
 	private int id;
-	public Servico(int idOrdemServico, Double preco, String descricao) {
+	public Servico(int idOrdemServico, String descricao, Double preco) {
 		this.preco = preco;
 		this.descricao = descricao;
 		this.idOrdemServico = idOrdemServico;
 	}
 
-	public Servico(int id, int idOrdemServico, Double preco, String descricao) {
-		this(idOrdemServico, preco, descricao);
+	public Servico(int id, int idOrdemServico, String descricao, Double preco) {
+		this(idOrdemServico, descricao, preco);
 		this.id = id;
 	}
 	

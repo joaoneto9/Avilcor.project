@@ -23,10 +23,11 @@ public class ServicoDAO {
 			ps.setInt(1, servico.getIdOrdemServico());
 			ps.setString(2, servico.getDescricao());
 			ps.setDouble(3, servico.getPreco());
+			ps.executeUpdate();
 			OrdemServicoDAO.somarValor(conn, servico.getPreco(), servico.getIdOrdemServico());
 			int idCostureira = OrdemServicoDAO.getIdCostureira(conn, servico.getIdOrdemServico());
 			CostureiraDAO.addServico(conn, idCostureira);
-			return idCostureira;
+			return servico.getIdOrdemServico();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
@@ -38,10 +39,10 @@ public class ServicoDAO {
 			ps.setInt(1, OrdemId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				servicos.add(new Servico(rs.getInt(1),
-						rs.getInt(2),
-						rs.getDouble(4),
-						rs.getString(3)));
+				servicos.add(new Servico(rs.getInt("id"),
+						rs.getInt("ordem_servico_id"),
+						rs.getString("descricao"),
+						rs.getDouble("preco")));
 			}
 			return servicos;
 		} catch (SQLException e) {

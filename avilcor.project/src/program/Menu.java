@@ -58,15 +58,16 @@ public class Menu {
 	    case 'A':
 	        return "Usuario cadastrado, com id: #" + sistema.cadastrarUsuario(setString("nome"), setString("email"));
 	    case 'B':
-	        return "detalhes do user: " + sistema.toStringUsuarioPorEmail(setString("email"));
+	        return "detalhes do user: " + sistema.toStringUsuarioPorEmail(setString("email do user"));
 	    case 'C':
-	        return "detalhes do user: " + sistema.toStringUsuarioPorId(setInt("id"));
+	    	int idUser1 = setInt("id user");
+	        return "detalhes do user#" + idUser1 + ":\n\n" + sistema.toStringUsuarioPorId(setInt("id"));
 	    case 'D':
 	        return sistema.listarUsuarios();
 	    case 'E':
 	        return "costureira adicionada, com id: #" + sistema.adicionarCostureira(setString("nome"), setString("cpf"), setInt("quantidade maxima de servicos"));
 	    case 'F':
-	        return "detalhes da costureira: " + sistema.toStringCostureiraPorId(setInt("id"));
+	        return "detalhes da costureira: " + sistema.toStringCostureiraPorId(setInt("id costueira"));
 	    case 'G':
 	        return sistema.listarHistoricoDeBuscas();
 	    case 'H':
@@ -74,7 +75,8 @@ public class Menu {
 	    case 'I':
 	        return "ordem de servico cadastrada, com id#" + sistema.cadastrarOrdemDeServico(setInt("id user"), setInt("id costureira"));
 	    case 'J':
-	        return "ordens de servico do usuario: " + sistema.listarOrdensDeUmUsuario(setInt("id"));
+	    	int idUser = setInt("id user");
+	        return "ordens de servico do usuario#" + idUser + ":\n\n" + sistema.listarOrdensDeUmUsuario(setInt("id user"));
 	    case 'K':
 	        return sistema.listarOrdensDeServicos();
 	    case 'L':
@@ -83,22 +85,22 @@ public class Menu {
 	        sistema.deletarOrdensFinalizadas();
 	        return "removendo as ordens de servicos finalizadas para serem entregues";
 	    case 'N':
-	        int id = setInt("id");
+	        int id = setInt("id da ordem de servico");
 	        sistema.atualizarStatusParaEmAndamento(id);
 	        return "colocando ordem de servico #" + id + "em andamento";
 	    case 'O':
-	        int id2 = setInt("id");
+	        int id2 = setInt("id da ordem de servico");
 	        sistema.atualizarStatusParaFinalizado(id2);;
 	        return "finalizando ordem de servico #" + id2;
 	    case 'P':
-	        return "adicinado servico a ordem de servico: " + sistema.adicionarServicoAOrdem(setInt("id"), setDouble("preco"), setString("descricao"));
+	        return "adicinado servico na ordem de servico -> " + sistema.adicionarServicoAOrdem(setInt("id da ordem de servico"), setDouble("preco"), setString("descricao"));
 	    case 'Q':
-	    	int id3 = setInt("id");
+	    	int id3 = setInt("id da ordem de servico");
 	        return "servicos da ordem de servico#" + id3 + ":\n" + sistema.listarServicosDeUmaOrdem(id3);
 	    case 'X':
 	        return "FIM DO PROGRAMA";
 	    default:
-	        return "Opção inválida.";
+	        return "Opção inválida. tente novamente.";
 	}
 		
 	} 

@@ -41,9 +41,9 @@ public class UsuarioDAO {
 			ps.setString(1, email); // determino a busca po email
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				return new Usuario(rs.getInt(1), 
-						rs.getString(2),
-						rs.getString(3));
+				return new Usuario(rs.getInt("id"), 
+						rs.getString("nome"),
+						rs.getString("email"));
 			}
 			return null; // se nao existir 
 		} catch (SQLException e) {
@@ -57,9 +57,9 @@ public class UsuarioDAO {
 			ps.setInt(1, id); // determino a busca po email
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				return new Usuario(rs.getInt(1), 
-						rs.getString(2),
-						rs.getString(3));
+				return new Usuario(rs.getInt("id"), 
+						rs.getString("nome"),
+						rs.getString("email"));
 			}
 			return null; // se nao existir 
 		} catch (SQLException e) {
@@ -72,9 +72,9 @@ public class UsuarioDAO {
 			ResultSet rs = ps.executeQuery();
 			List<Usuario> usuarios = new ArrayList<>();
 			while (rs.next()) {
-				usuarios.add(new Usuario(rs.getInt(1), 
-						rs.getString(2), 
-						rs.getString(3)));
+				usuarios.add(new Usuario(rs.getInt("id"), 
+						rs.getString("nome"),
+						rs.getString("email")));
 			}
 			return usuarios;
 		} catch (SQLException e) {
